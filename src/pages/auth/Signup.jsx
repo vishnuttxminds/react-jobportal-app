@@ -12,16 +12,19 @@ import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("APPLICANT");
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    role: "APPLICANT"
+  });
   const [success, setSuccess] = useState(false);
 
   const handleSignup = () => {
-    // simple validation
+    const { email, password, role } = formData;
+
     if (!email || !password) return;
 
-    // check existing user
     const exists = users.find(u => u.email === email);
     if (exists) {
       alert("User already exists");
@@ -38,13 +41,23 @@ export default function Signup() {
     users.push(newUser);
     setSuccess(true);
 
-    // reset
-    setEmail("");
-    setPassword("");
-    setRole("APPLICANT");
+    // reset form
+    setFormData({
+      email: "",
+      password: "",
+      role: "APPLICANT"
+    });
 
     console.log("Users List:", users);
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
 
   return (
     <>
@@ -56,27 +69,27 @@ export default function Signup() {
         <TextField
           fullWidth
           label="Email"
-          value={email}
+          value={formData.email}
           sx={{ mt: 2 }}
-          onChange={e => setEmail(e.target.value)}
+          onChange={handleChange}
         />
 
         <TextField
           fullWidth
           label="Password"
           type="password"
-          value={password}
+          value={formData.password}
           sx={{ mt: 2 }}
-          onChange={e => setPassword(e.target.value)}
+          onChange={handleChange}
         />
 
         <TextField
           select
           fullWidth
           label="Role"
-          value={role}
+          value={formData.role}
           sx={{ mt: 2 }}
-          onChange={e => setRole(e.target.value)}
+          onChange={handleChange}
         >
           <MenuItem value="APPLICANT">Applicant</MenuItem>
           <MenuItem value="COMPANY">Company</MenuItem>

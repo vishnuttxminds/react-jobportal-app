@@ -3,6 +3,7 @@ import SearchInput from "../../common/SearchInput";
 import JobCard from "../../common/JobCard";
 import EmptyState from "../../common/EmptyState";
 import useApplicantJobs from "../../hooks/useApplicantJobs";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 export default function ApplicantDashboard() {
   const {
@@ -15,44 +16,46 @@ export default function ApplicantDashboard() {
   } = useApplicantJobs();
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Applicant Dashboard
-      </Typography>
+    <DashboardLayout>
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Applicant Dashboard
+        </Typography>
 
-      <SearchInput
-        label="Search Job"
-        placeholder="Search by job title..."
-        value={search}
-        onChange={setSearch}
-      />
+        <SearchInput
+          label="Search Job"
+          placeholder="Search by job title..."
+          value={search}
+          onChange={setSearch}
+        />
 
-      <Grid container spacing={3}>
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map(job => (
-            <Grid item xs={12} md={6} key={job.id}>
-              <JobCard job={job} onApply={applyJob} />
-            </Grid>
-          ))
-        ) : (
-          <EmptyState message="No jobs found" />
-        )}
-      </Grid>
+        <Grid container spacing={3}>
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map(job => (
+              <Grid item xs={12} md={6} key={job.id}>
+                <JobCard job={job} onApply={applyJob} />
+              </Grid>
+            ))
+          ) : (
+            <EmptyState message="No jobs found" />
+          )}
+        </Grid>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={closeSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={3000}
           onClose={closeSnackbar}
-          severity={snackbar.severity}
-          variant="filled"
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={closeSnackbar}
+            severity={snackbar.severity}
+            variant="filled"
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </DashboardLayout>
   );
 }

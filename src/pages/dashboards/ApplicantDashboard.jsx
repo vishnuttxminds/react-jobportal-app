@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Snackbar, Alert } from "@mui/material";
 import SearchInput from "../../common/SearchInput";
 import JobCard from "../../common/JobCard";
 import EmptyState from "../../common/EmptyState";
@@ -10,6 +10,8 @@ export default function ApplicantDashboard() {
     setSearch,
     filteredJobs,
     applyJob,
+    snackbar,
+    closeSnackbar
   } = useApplicantJobs();
 
   return (
@@ -36,6 +38,21 @@ export default function ApplicantDashboard() {
           <EmptyState message="No jobs found" />
         )}
       </Grid>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={closeSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

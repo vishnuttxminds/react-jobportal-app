@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
 import { jobs as initialJobs } from "../data/jobs";
+import useSnackbar from "../hooks/useSnackbar";
 
 export default function useApplicantJobs() {
   const [search, setSearch] = useState("");
+  const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
 
   const filteredJobs = useMemo(() => {
     return initialJobs.filter(job =>
@@ -11,7 +13,7 @@ export default function useApplicantJobs() {
   }, [search]);
 
   const applyJob = job => {
-    alert(`Applied for ${job.title}`);
+    showSnackbar(`Applied for ${job.title}`, "success");
   };
 
   return {
@@ -19,5 +21,7 @@ export default function useApplicantJobs() {
     setSearch,
     filteredJobs,
     applyJob,
+    snackbar,
+    closeSnackbar
   };
 }

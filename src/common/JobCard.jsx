@@ -9,11 +9,11 @@ export default function JobCard({ job, onApply }) {
   return (
     <Card elevation={4}>
       <CardContent>
-        <Typography variant="h6">
+        <Typography variant="h6" sx={{ mt: 1 }}>
           {job.title}
         </Typography>
 
-        <br />
+      
 
         <Typography
           variant="body2"

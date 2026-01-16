@@ -1,18 +1,31 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { TextField, Button, Paper, Typography } from "@mui/material";
+import { TextField, Button, Paper, Typography, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
+import useSnackbar from "../../hooks/useSnackbar";
 
 
 export default function Login() {
     const { login, currentUser } = useContext(AuthContext);
+    const { snackbar, showSnackbar, closeSnackbar } = useSnackbar();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
     const navigate = useNavigate();
+
+
+    const handleLogin = () => {
+        const result = login(formData.email, formData.password);
+
+        console.log("Login result:", result);
+
+        if (!result.success) {
+            showSnackbar(result.message, "error");
+        }
+    };
 
     useEffect(() => {
         if (currentUser) {
@@ -55,7 +68,7 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 2 }}
-                onClick={() => login(formData.email, formData.password)}
+                onClick={() => handleLogin()}
             >
                 Login
             </Button>
@@ -71,6 +84,24 @@ export default function Login() {
                     SignUp
                 </Link>
             </Typography>
+
+
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={3000}
+                onClose={closeSnackbar}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={closeSnackbar}
+                    severity={snackbar.severity}
+                    variant="filled"
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Paper>
+
+
     );
 }

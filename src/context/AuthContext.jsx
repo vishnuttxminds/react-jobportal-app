@@ -7,22 +7,23 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   const login = (email, password) => {
-    console.log("Login Attempt:", email, password);
-    console.log("Users:", users);
-
     const user = users.find(
-      u =>
-        u.email.toLowerCase() === email.toLowerCase() &&
-        u.password === password
+      userDetails =>
+        userDetails.email.toLowerCase() === email.toLowerCase() &&
+        userDetails.password === password
     );
 
     if (user) {
-      console.log("Login Success:", user);
       setCurrentUser(user);
-    } else {
-      alert("Invalid Email or Password");
+      return { success: true };
     }
+
+    return {
+      success: false,
+      message: "Invalid Email or Password"
+    };
   };
+
 
   return (
     <AuthContext.Provider value={{ currentUser, login }}>

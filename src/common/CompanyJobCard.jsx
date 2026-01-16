@@ -14,10 +14,10 @@ export default function CompanyJobCard({ job }) {
           {job.title}
         </Typography>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ mt: .5 }}>
           {job.location}
         </Typography>
-        <br />
+
         <Typography variant="body2" color="text.secondary">
           {job.company}
         </Typography>

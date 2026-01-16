@@ -16,13 +16,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/signup" replace />} />
           <Route path="/login" element={<Login />} />
-
           <Route path="/signup" element={<Signup />} />
-
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
           <Route path="/company/dashboard" element={<CompanyDashboard />} />
-
           <Route path="/applicant/dashboard" element={<ApplicantDashboard />} />
         </Routes>
       </BrowserRouter>

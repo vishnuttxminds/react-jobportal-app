@@ -1,19 +1,8 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { jobs } from "../../data/jobs";
+import CompanyJobCard from "../../common/CompanyJobCard";
+import CreateJobDialog from "../../common/CreateJobDialog";
 
 export default function CompanyDashboard() {
   const [allJobs, setJobs] = useState(jobs);
@@ -26,16 +15,14 @@ export default function CompanyDashboard() {
       id: allJobs.length + 1,
       title: jobTitle,
       location,
-      applicants: []
+      applicants: [],
     };
-    setJobs([...allJobs, newJob]);
+
+    setJobs(prev => [...prev, newJob]);
     setOpen(false);
     setJobTitle("");
     setLocation("");
   };
-
-
-  console.log("Jobs List:", allJobs);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -43,60 +30,26 @@ export default function CompanyDashboard() {
         Company Dashboard
       </Typography>
 
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button
+        variant="contained"
+        onClick={() => setOpen(true)}
+      >
         Create Job
       </Button>
 
-      {/* Job List */}
-      {allJobs.map(job => {
-        console.log("JOB OBJECT ", job);
+      {allJobs.map(job => (
+        <CompanyJobCard key={job.id} job={job} />
+      ))}
 
-        return (
-          <Card key={job.id} sx={{ mt: 3 }}>
-            <CardContent>
-              <Typography variant="h6">{job.title}</Typography>
-
-              <List>
-                {job.applicants?.length === 0 && (
-                  <Typography>No applicants yet</Typography>
-                )}
-
-                {job.applicants?.map((app, index) => (
-                  <ListItem key={index}>{app}</ListItem>
-                ))}
-              </List>
-            </CardContent>
-          </Card>
-        );
-      })}
-
-
-      {/* Create Job Dialog */}
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Create Job</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Job Title"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={jobTitle}
-            onChange={e => setJobTitle(e.target.value)}
-          />
-          <TextField
-            label="Location"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={createJob}>
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CreateJobDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onCreate={createJob}
+        jobTitle={jobTitle}
+        setJobTitle={setJobTitle}
+        location={location}
+        setLocation={setLocation}
+      />
     </Box>
   );
 }

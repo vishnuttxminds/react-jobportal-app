@@ -1,15 +1,7 @@
 import { users } from "../../data/users";
 import { jobs } from "../../data/jobs";
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
+import DashboardGridCard from "../../common/DashboardGridCard";
 
 export default function AdminDashboard() {
   const companies = users.filter(u => u.role === "COMPANY");
@@ -21,46 +13,18 @@ export default function AdminDashboard() {
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Active Companies */}
-        <Grid item xs={12} md={6}>
-          <Card elevation={4}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Active Companies
-              </Typography>
+        <DashboardGridCard
+          title="Active Companies"
+          items={companies}
+          getPrimary={company => company.email}
+        />
 
-              <List>
-                {companies.map(company => (
-                  <ListItem key={company.id}>
-                    <ListItemText primary={company.email} />
-                  </ListItem>
-                ))}
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Active Jobs */}
-        <Grid item xs={12} md={6}>
-          <Card elevation={4}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Active Jobs
-              </Typography>
-
-              <List>
-                {jobs.map(job => (
-                  <ListItem key={job.id}>
-                    <ListItemText
-                      primary={job.title}
-                      secondary={job.company || "Company Name"}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
+        <DashboardGridCard
+          title="Active Jobs"
+          items={jobs}
+          getPrimary={job => job.title}
+          getSecondary={job => job.company || "Company Name"}
+        />
       </Grid>
     </Box>
   );

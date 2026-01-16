@@ -17,6 +17,10 @@ export default function CompanyJobCard({ job }) {
         <Typography variant="body2" color="text.secondary">
           {job.location}
         </Typography>
+        <br />
+        <Typography variant="body2" color="text.secondary">
+          {job.company}
+        </Typography>
 
         <List>
           {job.applicants?.length === 0 && (
@@ -30,6 +34,6 @@ export default function CompanyJobCard({ job }) {
           ))}
         </List>
       </CardContent>
-    </Card>
+    </Card >
   );
 }

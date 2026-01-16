@@ -1,20 +1,16 @@
-import { useState } from "react";
-import { jobs } from "../../data/jobs";
 import { Box, Typography, Grid } from "@mui/material";
 import SearchInput from "../../common/SearchInput";
 import JobCard from "../../common/JobCard";
 import EmptyState from "../../common/EmptyState";
+import useApplicantJobs from "../../hooks/useApplicantJobs";
 
 export default function ApplicantDashboard() {
-  const [search, setSearch] = useState("");
-
-  const filteredJobs = jobs.filter(job =>
-    job.title.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const handleApply = job => {
-    alert(`Applied for ${job.title}`);
-  };
+  const {
+    search,
+    setSearch,
+    filteredJobs,
+    applyJob,
+  } = useApplicantJobs();
 
   return (
     <Box sx={{ p: 4 }}>
@@ -33,7 +29,7 @@ export default function ApplicantDashboard() {
         {filteredJobs.length > 0 ? (
           filteredJobs.map(job => (
             <Grid item xs={12} md={6} key={job.id}>
-              <JobCard job={job} onApply={handleApply} />
+              <JobCard job={job} onApply={applyJob} />
             </Grid>
           ))
         ) : (

@@ -13,12 +13,30 @@ export default function JobCard({ job, onApply }) {
           {job.title}
         </Typography>
 
+        <br />
+
         <Typography
           variant="body2"
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          {job.company || "Company Name"}
+          <strong>Company: </strong>{job.company || "Company Name"}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          <strong>Experience: </strong> {job.experience || "Experience"}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          <strong>End Date: </strong> {job.endDate || "End Date"}
         </Typography>
 
         <Button

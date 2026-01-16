@@ -1,28 +1,20 @@
-import { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { jobs } from "../../data/jobs";
 import CompanyJobCard from "../../common/CompanyJobCard";
 import CreateJobDialog from "../../common/CreateJobDialog";
+import useCompanyJobs from "../../hooks/useCompanyJobs";
 
 export default function CompanyDashboard() {
-  const [allJobs, setJobs] = useState(jobs);
-  const [open, setOpen] = useState(false);
-  const [jobTitle, setJobTitle] = useState("");
-  const [location, setLocation] = useState("");
-
-  const createJob = () => {
-    const newJob = {
-      id: allJobs.length + 1,
-      title: jobTitle,
-      location,
-      applicants: [],
-    };
-
-    setJobs(prev => [...prev, newJob]);
-    setOpen(false);
-    setJobTitle("");
-    setLocation("");
-  };
+  const {
+    jobs,
+    open,
+    jobTitle,
+    location,
+    openDialog,
+    closeDialog,
+    setJobTitle,
+    setLocation,
+    createJob,
+  } = useCompanyJobs();
 
   return (
     <Box sx={{ p: 4 }}>
@@ -30,20 +22,17 @@ export default function CompanyDashboard() {
         Company Dashboard
       </Typography>
 
-      <Button
-        variant="contained"
-        onClick={() => setOpen(true)}
-      >
+      <Button variant="contained" onClick={openDialog}>
         Create Job
       </Button>
 
-      {allJobs.map(job => (
+      {jobs.map(job => (
         <CompanyJobCard key={job.id} job={job} />
       ))}
 
       <CreateJobDialog
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={closeDialog}
         onCreate={createJob}
         jobTitle={jobTitle}
         setJobTitle={setJobTitle}
